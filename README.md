@@ -10,7 +10,7 @@ The clone_deps.sh script installs all required software from repositories, clone
 
      $ mkdir ~/Sources
      $ cd ~/Sources
-     $ git clone https://github.org/...
+     $ git clone https://github.com/LRMPUT/constraintsGM
      $ mkdir ~/Libs
      $ cd ~/Sources/constraintsGM
      $ ./scritps/clone_deps.sh
