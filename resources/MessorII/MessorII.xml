@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+<robot name="MessorII" legs_no="6">
+	<robot_body name="body">
+		<inertial>
+			<mass value="0.5"/>
+		</inertial>
+		<collision>
+                        <origin xyz="0.0 -2.0 0.44" rpy="0.0 0 0"/>
+			<!--<origin xyz="2.9 0.3 0.44" rpy="0.0 0 0"/>--><!--jintTraj1-->
+                        <!--<origin xyz="0 -4.5 0.34" rpy="0.0 0 0"/>--><!--jintTraj2-->
+                        <!--<origin xyz="-5.9 0.3 0.34" rpy="0.0 0 0"/>--> <!--jintTraj3-->
+			<geometry>
+				<box xyz="0.08 0.22 0.04"/>
+			</geometry>
+		</collision>
+ 		<visualization>
+ 			<model3ds filename="MessorII/corpus.3ds" scale="0.0254 0.0254 0.0254" xyz="0 0 0" rpy="0.0 0 0"/>
+ 		</visualization>
+	</robot_body>
+
+        <CollisionDetection>
+            <!--<type>Coldet</type>
+            <config>coldet.xml</config>-->
+            <type>FCL</type>
+            <config>flexibleCollDetect.xml</config>
+        </CollisionDetection>
+        
+        <RegulatorODE>
+            <parameters PIDTuning="20 0.1 20000"></parameters>
+        </RegulatorODE>
+        
+        <Optimizer>
+            <type>PSO</type>
+            <config>optPostureMessor2.xml</config>
+        </Optimizer>
+        
+        <Planner>
+            <parameters bodyWidth="0.2" bodyLength="0.3" bodyClearance="0.02"></parameters>
+        </Planner>
+
+	<leg config="MessorII/MessorIILeg1.xml">
+		<attach xyz="0.055 0.125 0.0" rpy="0 0 0" initConfiguration="0.7854 0.41888 -1.9897"/>
+	</leg>
+
+	<leg config="MessorII/MessorIILeg2.xml">
+		<attach xyz="0.109 0.0 0" rpy="0 0 0" initConfiguration="0 0.41888 -1.9897"/>
+	</leg>
+        
+	<leg config="MessorII/MessorIILeg3.xml">
+		<attach xyz="0.055 -0.125 0.0" rpy="0 0 0" initConfiguration="-0.7854 0.41888 -1.9897"/>
+	</leg>
+
+	<leg config="MessorII/MessorIILeg4.xml">
+		<attach xyz="-0.055 -0.125 0.0" rpy="0 0 3.14" initConfiguration="0.7854 0.41888 -1.9897"/>
+	</leg>
+        
+	<leg config="MessorII/MessorIILeg5.xml">
+		<attach xyz="-0.109 0.0 0" rpy="0 0 3.14" initConfiguration="0 0.41888 -1.9897"/>
+	</leg>
+
+	<leg config="MessorII/MessorIILeg6.xml">
+		<attach xyz="-0.055 0.125 0.0" rpy="0 0 3.14" initConfiguration="-0.7854 0.41888 -1.9897"/>
+	</leg>
+
+
+</robot>
+

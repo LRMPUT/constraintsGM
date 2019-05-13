@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<controller>
+        <!-- frequency - update frequency [Hz] -->
+	<regulation PID="800 0.0 0.0" frequency="100"/>
+	<limits min="-100" max="100"/>
+</controller>

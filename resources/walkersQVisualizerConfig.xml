@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!-- Visualizer configuration -->
+  <VisualizerConfig>
+  	<name>QGLVisualizer</name>
+	<parameters verbose="0" visualizeCollisions="false" visualizeFootholds="false" drawAxis="false" drawNormals="false"></parameters>
+	<background red="1.0" green="1.0" blue="1.0" alpha="1.0"></background>
+  </VisualizerConfig>

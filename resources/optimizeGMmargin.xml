@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!-- CMAES parameters -->
+  <CMAES>
+	<name>Cmaes</name>
+<!--         N       - dimensions no -->
+  <parameters verbose="0" N="600" sigma="0.3" stopfitness="10e-9" breakIfNoProgressFor="18000"></parameters>
+  <dim0 min="0.0" max="0.2"></dim0> <!--range for the variable-->
+  <dim1 min="0.1" max="0.3"></dim1> <!--range for the variable-->
+  <dim2 min="0.2" max="0.4"></dim2> <!--range for the variable-->
+  <dim3 min="-0.2" max="0.0"></dim3> <!--range for the variable-->
+  <dim4 min="-0.3" max="-0.1"></dim4> <!--range for the variable-->
+  <dim5 min="1.47" max="1.67"></dim5> <!--range for the variable-->
+  <dim6 min="0.05" max="0.25"></dim6> <!--range for the variable-->
+  <dim7 min="0.15" max="0.35"></dim7> <!--range for the variable-->
+  <dim8 min="0.25" max="0.45"></dim8> <!--range for the variable-->
+  <dim9 min="0.0" max="0.2"></dim9> <!--range for the variable-->
+  <dim10 min="-1.67" max="-1.47"></dim10> <!--range for the variable-->
+  <dim11 min="0.2" max="0.4"></dim11> <!--range for the variable-->
+  </CMAES>
+
+<!--strfitnessfct="frosenbrock"-->

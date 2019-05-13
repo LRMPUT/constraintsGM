@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+  <GaussianMixture>
+    <!--
+    # input - number of features
+    # output - number of outputs
+    # The number of elements in polynomial - 'm'
+    # the maximal number of iterations
+    # the number of learning data
+    # the number of test data
+    # the final equation form
+      # 1 - octave/matlab like type
+      # 2 - c/c++ like type
+    -->
+      <!--<method>CMAES</method>-->
+    <method>PSO</method>
+	<CMAESconfig>optimizeGMmargin.xml</CMAESconfig>
+    <parameters inputsNo="6" outputsNo="1" populationSize="40" gaussiansNo="600" maxIterations="5" trainSize="20000" testSize="20000" outputType="2" normalizeOutput="true"></parameters>
+    
+  </GaussianMixture>
+  <trainingSet>../../resources/MessorII/model/coldetNeighTrainXYZ45.dat</trainingSet>
+  <testSet>../../resources/MessorII/model/coldetNeighTestXYZ45.dat</testSet>
+  <verificationSet>../../resources/MessorII/model/coldetNeighTestXYZ45.dat</verificationSet>
