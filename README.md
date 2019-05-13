@@ -17,11 +17,13 @@ The clone_deps.sh script installs all required software from repositories, clone
      
 ## Running the application
 
-Run ./demoVisualizer to visualize the robot
-     - cd ~/Sources/constraintsGM/build/bin
+Run ./demoVisualizer to visualize the robot:
+
+     - cd ~/Sources/constraintsGM/build/bin     
      - ./demoVisualizer
 
-Run ./robotModelGM to create GM model of the robot (kinematic margin and self-collisions)
+Run ./robotModelGM to create GM model of the robot (kinematic margin and self-collisions):
+
      - cd ~/Sources/constraintsGM/build/bin
      - ./robotModelGM
 
