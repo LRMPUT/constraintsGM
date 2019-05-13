@@ -4,7 +4,7 @@ Dominik Belter
 # This is the part of the Walkers library related to constraints modeling and evaluation using Gaussian Mixtures.
 
 ## Installer
-    Installation instruction was tested on Ubuntu 19.04 operating system.
+    Installation instruction was tested on Ubuntu 18.04 operating system.
 
 The clone_deps.sh script installs all required software from repositories, clones requires libraries and compiles them:
 
