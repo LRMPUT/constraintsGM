@@ -3,6 +3,7 @@
 #include "Visualizer/Qvisualizer.h"
 // robot model
 #include "RobotModelMat/Messor2Robot.h"
+#include "RobotModelMat/AnymalRobot.h"
 // Utilities
 #include "Utilities/recorder.h"
 #include <GL/glut.h>
@@ -41,6 +42,9 @@ int main(int argc, char** argv)
         if (robotType=="MessorII"){
             robotMat = walkers::createRobotMessor(robotConfig);
         }
+        else if (robotType=="Anymal"){
+            robotMat = walkers::createRobotAnymal(robotConfig);
+        }
         else
             robotMat = walkers::createRobotMessor(robotConfig);
 
@@ -50,14 +54,18 @@ int main(int argc, char** argv)
 
         ///kinematic model of the robot
         std::vector<double> robotConfHexa = {0.7854,0.41888,-114*M_PI/180, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897, 0.7854,0.41888,-1.9897, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897};
+        std::vector<double> robotConfQuad = {-7.2*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, -7*M_PI/180,24*M_PI/180,-74*M_PI/180};
         std::vector<double> robotConf;
         if (robotType=="MessorII" || robotType=="PhantomX"){
             robotConf = robotConfHexa;
         }
+        else if (robotType=="Anymal"){
+            robotConf = robotConfQuad;
+        }
 
         walkers::Mat34 robotPose(walkers::Mat34::Identity());
         robotPose(0,3)=0.0;         robotPose(1,3)=0.0;         robotPose(2,3)=-0.7;
-        robotPose.matrix().block<3,3>(0,0) = walkers::toRotationMat(walkers::Vec3(0.3,0.0,1.57));
+        robotPose.matrix().block<3,3>(0,0) = walkers::toRotationMat(walkers::Vec3(0.0,0.0,0.0));
         visu.updateKinematicModel(robotPose, robotConf);
 
         std::cout << "Robot visualization\n";

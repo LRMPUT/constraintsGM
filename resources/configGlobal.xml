@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
   <Robot>
-<!--        <type>Anymal</type>
-      <config>Anymal/Anymal.xml</config>-->
+        <type>Anymal</type>
+      <config>Anymal/Anymal.xml</config>
 <!--	<type>Atlas</type>
 	<config>Atlas/Atlas.xml</config>-->
 <!--        <type>PhantomX</type>
 	<config>PhantomX/PhantomX.xml</config>-->
 <!--        <type>Galgo</type>
 	<config>Galgo/Galgo.xml</config>-->
-       <type>MessorII</type>
-	<config>MessorII/MessorII.xml</config>
+<!--       <type>MessorII</type>
+	<config>MessorII/MessorII.xml</config>-->
         <!--<type>StarlETH</type>
 	<config>StarlETH/StarlETH.xml</config>-->
         <!--<type>Robot1</type>

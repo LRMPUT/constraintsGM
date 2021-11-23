@@ -1,4 +1,5 @@
 #include "Visualizer/Qvisualizer.h"
+#include "RobotModelMat/AnymalRobot.h"
 #include <memory>
 #include <cmath>
 #include <stdexcept>
@@ -33,6 +34,9 @@ QGLVisualizer::QGLVisualizer(std::string configFilename, std::string& robotConfi
     if (robotType=="MessorII"){
         robotMat = walkers::createRobotMessor(robotConfig);
     }
+    else if (robotType=="Anymal"){
+        robotMat = walkers::createRobotAnymal(robotConfig);
+    }
     else
         robotMat = walkers::createRobotMessor(robotConfig);
 
@@ -40,6 +44,9 @@ QGLVisualizer::QGLVisualizer(std::string configFilename, std::string& robotConfi
 
     if ((robotType=="MessorII")||(robotType=="PhantomX")){
         refAnglesKinem = std::vector<double> ({0.7854,0.41888,-114*M_PI/180, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897, 0.7854,0.41888,-1.9897, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897});
+    }
+    else if (robotType=="Anymal") {
+        refAnglesKinem = std::vector<double> ({-7.2*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, -7*M_PI/180,24*M_PI/180,-74*M_PI/180});
     }
 
     robotMat->load3Dobjects(objects3DS);
@@ -133,6 +140,7 @@ void QGLVisualizer::update(const std::vector<walkers::Mat34>& envState) {
 /// draw kinematic model
 void QGLVisualizer::updateKinematicModel(const walkers::Mat34& pose, const std::vector<double>& configuration){
     std::vector<simulator::RenderObject> kinemObjects2render = robotMat->getObjectsToRender(configuration);
+    std::cout << "kinemObjects2render " << kinemObjects2render.size() << "\n";
     kinemRobotPose = pose;
     for (auto& obj : kinemObjects2render)
         obj.mat = kinemRobotPose*obj.mat;
@@ -378,26 +386,32 @@ void QGLVisualizer::keyPressEvent(QKeyEvent* key){
     }
     if ((key->key() == Qt::Key_E)) {
         refAnglesKinem[selectedLeg*3+0]+=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+0] " << refAnglesKinem[selectedLeg*3+0] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_D)) {
         refAnglesKinem[selectedLeg*3+0]-=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+0] " << refAnglesKinem[selectedLeg*3+0] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_R)) {
         refAnglesKinem[selectedLeg*3+1]+=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+1] " << refAnglesKinem[selectedLeg*3+1] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_F)) {
         refAnglesKinem[selectedLeg*3+1]-=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+1] " << refAnglesKinem[selectedLeg*3+1] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_T)) {
         refAnglesKinem[selectedLeg*3+2]+=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+2] " << refAnglesKinem[selectedLeg*3+2] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_G)) {
         refAnglesKinem[selectedLeg*3+2]-=1.0*M_PI/180.0;
+        std::cout << "refAnglesKinem[selectedLeg*3+2] " << refAnglesKinem[selectedLeg*3+2] << "\n";
         updateStateKinemModel = true;
     }
     if ((key->key() == Qt::Key_X)) {

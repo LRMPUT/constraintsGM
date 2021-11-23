@@ -81,6 +81,26 @@ if(BUILD_WITH_FCL)
 endif(BUILD_WITH_FCL)
 
 if(BUILD_VISUALIZER)
+
+    #Qt5
+    find_package(Qt5Widgets REQUIRED)
+    find_package(Qt5Core REQUIRED)
+    find_package(Qt5Xml REQUIRED)
+    find_package(Qt5OpenGL REQUIRED)
+    MESSAGE("widgets: " ${Qt5Core_LIBRARIES})
+    include_directories(${Qt5Widgets_INCLUDE_DIRS})
+    include_directories(${Qt5Core_INCLUDE_DIRS})
+    include_directories(${Qt5Xml_INCLUDE_DIRS})
+    include_directories(${Qt5OpenGL_INCLUDE_DIRS})
+
+    #required by Qt5
+    # Use "-fPIC" / "-fPIE" for all targets by default, including static libs
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    # CMake doesn't add "-pie" by default for executables (CMake issue #14983)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fPIC")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    SET(CMAKE_CACHEFILE_DIR_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+
     FIND_PACKAGE(OpenGL)
     include_directories(${OPENGL_INCLUDE_DIR})
     link_directories(${OPENGL_LIBRARY})
@@ -88,7 +108,7 @@ if(BUILD_VISUALIZER)
     #QGLViewer library
     FIND_PACKAGE(QGLViewer)
     include_directories(${QGLVIEWER_INCLUDE_DIR})
-    include_directories(${QT_INCLUDES})
+#    include_directories(${QT_INCLUDES})
     link_directories(${QGLVIEWER_LIBRARY})
 
 endif(BUILD_VISUALIZER)
@@ -247,7 +267,7 @@ if(BUILD_VISUALIZER)
             "${CMAKE_SOURCE_DIR}/include/Visualizer/*.h"
         )
         ADD_LIBRARY(Visualizer STATIC ${VISUALIZER_SOURCES} ${VISUALIZER_HEADERS})
-        TARGET_LINK_LIBRARIES(Visualizer tinyxml2 ${QGLVIEWER_LIBRARY} ${QT_LIBRARIES} QtCore QtXml QtOpenGL QtGui ${OPENGL_LIBRARY} CollisionDetection RobotModelMat)
+        TARGET_LINK_LIBRARIES(Visualizer tinyxml2 ${QGLVIEWER_LIBRARY} GL GLU glut QGLViewer-qt5 Qt5Core Qt5Widgets Qt5Xml Qt5OpenGL Qt5Gui CollisionDetection RobotModelMat)
 endif(BUILD_VISUALIZER)
 
 ###############################################################################
@@ -395,7 +415,8 @@ if(BUILD_VISUALIZER)
         SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath ./")
         SET(DEMO_SOURCES ./demos/demoVisualizer.cpp)
         ADD_EXECUTABLE(demoVisualizer ${DEMO_SOURCES})
-        TARGET_LINK_LIBRARIES(demoVisualizer Visualizer Defs RobotModelMat tinyxml2 ${QGLVIEWER_LIBRARY} ${QT_LIBRARIES} ${QT_LIBRARIES} QtCore QtXml QtOpenGL QtGui ${OPENGL_LIBRARY} glut)
+        target_compile_options(demoVisualizer PRIVATE -fPIC)
+        TARGET_LINK_LIBRARIES(demoVisualizer Visualizer Defs RobotModelMat tinyxml2 GL GLU glut QGLViewer-qt5 Qt5Core Qt5Widgets Qt5Xml Qt5OpenGL Qt5Gui)
         if(BUILD_WITH_FCL)
             TARGET_LINK_LIBRARIES(demoVisualizer ${FCL_LIBRARY} ${CCD_LIBRARY})
         endif(BUILD_WITH_FCL)

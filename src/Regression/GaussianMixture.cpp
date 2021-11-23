@@ -183,6 +183,7 @@ void GaussianMixture::setBoundaries(){
 /// compute n boundaries (width of Gaussian function)
 void GaussianMixture::computeBoundaries(std::vector<std::pair<double,double>>& _gaussianBoundaries, const std::vector<std::pair<double,double>>& _inputDomain){
     for (size_t i=0;i<_gaussianBoundaries.size();i++){
+        std::cout << "dim: " << i << _inputDomain[i].first << ", " << _inputDomain[i].second << "\n";
           double width=_inputDomain[i].second-_inputDomain[i].first;
           if (width==0)
               _gaussianBoundaries[i].second=std::numeric_limits<double>::max();
