@@ -15,7 +15,7 @@
       <!--<method>CMAES</method>-->
     <method>PSO</method>
 	<CMAESconfig>optimizeGMmargin.xml</CMAESconfig>
-    <parameters inputsNo="6" outputsNo="1" populationSize="40" gaussiansNo="600" maxIterations="5" trainSize="20000" testSize="20000" outputType="2" normalizeOutput="true"></parameters>
+    <parameters inputsNo="3" outputsNo="1" populationSize="40" gaussiansNo="600" maxIterations="5" trainSize="20000" testSize="20000" outputType="2" normalizeOutput="true"></parameters>
     
   </GaussianMixture>
   <trainingSet>../../resources/MessorII/model/coldetNeighTrainXYZ45.dat</trainingSet>

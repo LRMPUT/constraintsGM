@@ -564,11 +564,11 @@ void generateTrainingSamplesNeighCollision(size_t leg1No, size_t leg2No, size_t 
             walkers::Mat34 foot2 = robotMat->forwardKinematic(leg2No, legConf2);
             bool isColl = robotMat->checkCollision(leg1No, legConf1, leg2No, legConf2);
             for (size_t dim=0;dim<3;dim++){
-                trainFile << foot1(dim,3) << ",";
+                trainFile << foot1(dim,3)-foot2(dim,3) << ",";
             }
-            for (size_t dim=0;dim<3;dim++){
-                trainFile << foot2(dim,3) << ",";
-            }
+//            for (size_t dim=0;dim<3;dim++){
+//                trainFile << foot2(dim,3) << ",";
+//            }
             if (isColl)
                 trainFile << "\n" << 1 << "\n";
             else
@@ -629,94 +629,94 @@ int main(void) {
         robotMat->load3Dobjects(objects3DS);
         collisionChecker->initializeMeshModelWalker(objects3DS, modelsNo, elementsNo, scales);
 
-        ///train and verify kinematic margin
-        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
-            std::cout << "legNo " <<legNo << "\n";
+//        ///train and verify kinematic margin
+//        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
+//            std::cout << "legNo " <<legNo << "\n";
 
-            std::cout << "plot vertical cross-section over the workspace -- kinematic margin.\n";
-            plotVerticalCrossSectionKM(legNo, "kinematicMarginVert"+std::to_string(legNo)+".m", robotMat.get());
-            std::cout << "plot horizontal cross-section over the workspace -- kinematic margin.\n";
-            plotHorizontalCrossSectionKM(legNo, "kinematicMarginHoriz"+std::to_string(legNo)+".m", robotMat.get());
+//            std::cout << "plot vertical cross-section over the workspace -- kinematic margin.\n";
+//            plotVerticalCrossSectionKM(legNo, "kinematicMarginVert"+std::to_string(legNo)+".m", robotMat.get());
+//            std::cout << "plot horizontal cross-section over the workspace -- kinematic margin.\n";
+//            plotHorizontalCrossSectionKM(legNo, "kinematicMarginHoriz"+std::to_string(legNo)+".m", robotMat.get());
 
-            /// generate data for training the kinematic margin model (joint configurations)
-            std::cout << "Generate data for training.\n";
-            generateTrainingSamples(legNo, 10000, "kinemMarginTrain"+std::to_string(legNo)+".dat", robotMat.get());
-            std::cout << "Generate data for testing.\n";
-            /// and samples for testing
-            generateTrainingSamples(legNo, 10000, "kinemMarginTest"+std::to_string(legNo)+".dat", robotMat.get());
+//            /// generate data for training the kinematic margin model (joint configurations)
+//            std::cout << "Generate data for training.\n";
+//            generateTrainingSamples(legNo, 10000, "kinemMarginTrain"+std::to_string(legNo)+".dat", robotMat.get());
+//            std::cout << "Generate data for testing.\n";
+//            /// and samples for testing
+//            generateTrainingSamples(legNo, 10000, "kinemMarginTest"+std::to_string(legNo)+".dat", robotMat.get());
 
-            std::cout << "Train the GM model (kinematic margin).\n";
-            std::shared_ptr<regression::Regression> gm;
-            gm = regression::createGaussianApproximation(std::string("regressionKinemMargin.xml"));
-            gm->initializeTraining("kinemMarginTrain"+std::to_string(legNo)+".dat",
-                                   "kinemMarginTest"+std::to_string(legNo)+".dat",
-                                   "kinemMarginTest"+std::to_string(legNo)+".dat");
-            gm->train();
-            gm->storeResult("leg"+std::to_string(legNo)+"KM.dat");
-            gm->writeSummary("resultsTrainKM"+std::to_string(legNo)+".txt", "resultsTestKM"+std::to_string(legNo)+".txt");
-            std::cout << "Leg " << legNo << " trained\n";
+//            std::cout << "Train the GM model (kinematic margin).\n";
+//            std::shared_ptr<regression::Regression> gm;
+//            gm = regression::createGaussianApproximation(std::string("regressionKinemMargin.xml"));
+//            gm->initializeTraining("kinemMarginTrain"+std::to_string(legNo)+".dat",
+//                                   "kinemMarginTest"+std::to_string(legNo)+".dat",
+//                                   "kinemMarginTest"+std::to_string(legNo)+".dat");
+//            gm->train();
+//            gm->storeResult("leg"+std::to_string(legNo)+"KM.dat");
+//            gm->writeSummary("resultsTrainKM"+std::to_string(legNo)+".txt", "resultsTestKM"+std::to_string(legNo)+".txt");
+//            std::cout << "Leg " << legNo << " trained\n";
 
-            gm->load("leg"+std::to_string(legNo)+"KM.dat");
-            plotKinematicMarginVertGM(legNo, "marginVertGM"+std::to_string(legNo)+".m", robotMat.get(), gm.get());
-            plotKinematicMarginHorizGM(legNo, "marginHorizGM"+std::to_string(legNo)+".m", robotMat.get(), gm.get());
-        }
+//            gm->load("leg"+std::to_string(legNo)+"KM.dat");
+//            plotKinematicMarginVertGM(legNo, "marginVertGM"+std::to_string(legNo)+".m", robotMat.get(), gm.get());
+//            plotKinematicMarginHorizGM(legNo, "marginHorizGM"+std::to_string(legNo)+".m", robotMat.get(), gm.get());
+//        }
 
-        ///train and verify distance to workspace
-        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
-            std::cout << "legNo " <<legNo << "\n";
+//        ///train and verify distance to workspace
+//        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
+//            std::cout << "legNo " <<legNo << "\n";
 
-            std::cout << "plot vertical cross-section over the distance to the workspace.\n";
-            plotVerticalCrossSectionOutKM(legNo, "kinematicOutMarginVert"+std::to_string(legNo)+".m", robotMat.get());
-            std::cout << "plot horizontal cross-section over the workspace -- kinematic margin.\n";
-            plotHorizontalCrossSectionOutKM(legNo, "kinematicOutMarginHoriz"+std::to_string(legNo)+".m", robotMat.get());
+//            std::cout << "plot vertical cross-section over the distance to the workspace.\n";
+//            plotVerticalCrossSectionOutKM(legNo, "kinematicOutMarginVert"+std::to_string(legNo)+".m", robotMat.get());
+//            std::cout << "plot horizontal cross-section over the workspace -- kinematic margin.\n";
+//            plotHorizontalCrossSectionOutKM(legNo, "kinematicOutMarginHoriz"+std::to_string(legNo)+".m", robotMat.get());
 
-            /// generate data for training the distance to the workspace
-            std::cout << "Generate data for training.\n";
-            generateTrainingSamplesOutWorkspace(legNo, 10000, "kinemOutMarginTrainXYZ"+std::to_string(legNo)+".dat", robotMat.get());
-            std::cout << "Generate data for testing.\n";
-            /// and samples for testing
-            generateTrainingSamplesOutWorkspace(legNo, 10000, "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat", robotMat.get());
+//            /// generate data for training the distance to the workspace
+//            std::cout << "Generate data for training.\n";
+//            generateTrainingSamplesOutWorkspace(legNo, 10000, "kinemOutMarginTrainXYZ"+std::to_string(legNo)+".dat", robotMat.get());
+//            std::cout << "Generate data for testing.\n";
+//            /// and samples for testing
+//            generateTrainingSamplesOutWorkspace(legNo, 10000, "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat", robotMat.get());
 
-            std::cout << "Train the GM model (kinematic margin).\n";
-            std::shared_ptr<regression::Regression> gm;
-            gm = regression::createGaussianApproximation(std::string("regressionOutKinemMargin.xml"));
-            gm->initializeTraining("kinemOutMarginTrainXYZ"+std::to_string(legNo)+".dat",
-                                   "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat",
-                                   "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat");
-            gm->train();
-            gm->storeResult("leg"+std::to_string(legNo)+"outKM.dat");
-            gm->writeSummary("resultsTrainOutKM"+std::to_string(legNo)+".txt", "resultsTestOutKM"+std::to_string(legNo)+".txt");
-            std::cout << "Leg " << legNo << " trained\n";
+//            std::cout << "Train the GM model (kinematic margin).\n";
+//            std::shared_ptr<regression::Regression> gm;
+//            gm = regression::createGaussianApproximation(std::string("regressionOutKinemMargin.xml"));
+//            gm->initializeTraining("kinemOutMarginTrainXYZ"+std::to_string(legNo)+".dat",
+//                                   "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat",
+//                                   "kinemOutMarginTestXYZ"+std::to_string(legNo)+".dat");
+//            gm->train();
+//            gm->storeResult("leg"+std::to_string(legNo)+"outKM.dat");
+//            gm->writeSummary("resultsTrainOutKM"+std::to_string(legNo)+".txt", "resultsTestOutKM"+std::to_string(legNo)+".txt");
+//            std::cout << "Leg " << legNo << " trained\n";
 
-            gm->load("leg"+std::to_string(legNo)+"outKM.dat");
-            plotOutKinematicMarginVertGM("marginVertOutGM"+std::to_string(legNo)+".m", gm.get());
-            plotOutKinematicMarginHorizGM("marginHorizOutGM"+std::to_string(legNo)+".m", gm.get());
-        }
+//            gm->load("leg"+std::to_string(legNo)+"outKM.dat");
+//            plotOutKinematicMarginVertGM("marginVertOutGM"+std::to_string(legNo)+".m", gm.get());
+//            plotOutKinematicMarginHorizGM("marginHorizOutGM"+std::to_string(legNo)+".m", gm.get());
+//        }
 
-        size_t samplesNoSelfColl = 20000;
-        /// generate data for training the self-collision model (joint configurations) and verify the model
-        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
-            std::cout << "leg No " << legNo << "\n";
-            /// generate data for training the collision model (joint configurations)
-            std::cout << "Generate data for training collision model.\n";
-            generateTrainingSamplesCollision(legNo, samplesNoSelfColl,  "coldetTrain"+std::to_string(legNo)+".dat", robotMat.get());
-            std::cout << "Generate data for testing collision model.\n";
-            /// and samples for testing
-            generateTrainingSamplesCollision(legNo, samplesNoSelfColl,  "coldetTest"+std::to_string(legNo)+".dat", robotMat.get());
+//        size_t samplesNoSelfColl = 20000;
+//        /// generate data for training the self-collision model (joint configurations) and verify the model
+//        for (size_t legNo=0;legNo<robotMat->getLegsNo();legNo++){
+//            std::cout << "leg No " << legNo << "\n";
+//            /// generate data for training the collision model (joint configurations)
+//            std::cout << "Generate data for training collision model.\n";
+//            generateTrainingSamplesCollision(legNo, samplesNoSelfColl,  "coldetTrain"+std::to_string(legNo)+".dat", robotMat.get());
+//            std::cout << "Generate data for testing collision model.\n";
+//            /// and samples for testing
+//            generateTrainingSamplesCollision(legNo, samplesNoSelfColl,  "coldetTest"+std::to_string(legNo)+".dat", robotMat.get());
 
-            std::shared_ptr<regression::Regression> gm;
-            gm = regression::createGaussianApproximation(std::string("regressionColl.xml"));
-            gm->initializeTraining("coldetTrain"+std::to_string(legNo)+".dat",
-                                   "coldetTest"+std::to_string(legNo)+".dat",
-                                   "coldetTest"+std::to_string(legNo)+".dat");
-            gm->train();
-            gm->storeResult("leg"+std::to_string(legNo)+"coldet.dat");
-            gm->writeSummary("resultsTrainColdet"+std::to_string(legNo)+".txt", "resultsTestColdet"+std::to_string(legNo)+".txt");
-            std::cout << "Leg " << legNo << " trained\n";
+//            std::shared_ptr<regression::Regression> gm;
+//            gm = regression::createGaussianApproximation(std::string("regressionColl.xml"));
+//            gm->initializeTraining("coldetTrain"+std::to_string(legNo)+".dat",
+//                                   "coldetTest"+std::to_string(legNo)+".dat",
+//                                   "coldetTest"+std::to_string(legNo)+".dat");
+//            gm->train();
+//            gm->storeResult("leg"+std::to_string(legNo)+"coldet.dat");
+//            gm->writeSummary("resultsTrainColdet"+std::to_string(legNo)+".txt", "resultsTestColdet"+std::to_string(legNo)+".txt");
+//            std::cout << "Leg " << legNo << " trained\n";
 
-            gm->load("leg"+std::to_string(legNo)+"coldet.dat");
-            // do something with the collision model (the example output is in "resultsTrainColdetX.txt" and resultsTestColdetX.txt)
-        }
+//            gm->load("leg"+std::to_string(legNo)+"coldet.dat");
+//            // do something with the collision model (the example output is in "resultsTrainColdetX.txt" and resultsTestColdetX.txt)
+//        }
 
         /// generate data for training the collision model (joint configurations)
         size_t samplesNoNeighColl = 20000;
