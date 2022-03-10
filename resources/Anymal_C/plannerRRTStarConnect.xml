@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!-- Planner configuration -->
+  <Planner>
+    <name>RRT*-Connect</name>
+    <parameters distance2ground="0.025" maxIter="10000" maxPlanningTime="4000" maxPlanningTimeOptimization="180" stopWhenPathFound="false" optimizeInitPose="true" maxStepDistance="0.075" maxRotYaw="0.1" trajPoints="10" substepsNo="5" minKinematicMargin="0.02" informed="true"></parameters>
+    <workspaceOptimization maxIter="15" step="0.025"></workspaceOptimization>
+    <dist2workspaceOptimization maxIter="15" step="0.1"></dist2workspaceOptimization>
+  </Planner>

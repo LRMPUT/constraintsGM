@@ -37,9 +37,9 @@ InsectLeg::InsectLeg(std::string configFilename) : Leg("Insect Leg", TYPE_INSECT
         model3dName.resize(linksNo);
         model3dFlag.resize(linksNo);
         model3dId.resize(linksNo);
-        model3dScale.resize(linksNo);
-        model3dOrientation.resize(linksNo);
-        model3dPosition.resize(linksNo);
+        model3dScale.resize(3);
+        model3dOrientation.resize(3);
+        model3dPosition.resize(3);
         massLinks.resize(linksNo);
 
         /// Read segment data
@@ -96,6 +96,12 @@ void InsectLeg::get3DmodelPoses(std::vector<walkers::Mat34>& _model3dPoses){
         _model3dPoses[jointNo].matrix().block<3,3>(0,0) = walkers::toRotationMat(model3dOrientation[jointNo]);
         _model3dPoses[jointNo].matrix().block<3,1>(0,3) = model3dPosition[jointNo].vector();
     }
+}
+
+/// get model scales
+void InsectLeg::get3DmodelScales(std::vector<walkers::Vec3>& _model3dScales) {
+    _model3dScales = model3dScale;
+
 }
 
 /** Compute torque in each joint for given the force applied in the foot

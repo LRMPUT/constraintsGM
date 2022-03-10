@@ -19,6 +19,7 @@
 namespace walkers {
     std::unique_ptr<Robot> createRobotAnymal(void);
     std::unique_ptr<Robot> createRobotAnymal(std::string configFilename);
+    std::unique_ptr<Robot> createRobotAnymal(std::string configFilename, const std::string& _name);
 }
 
 ///Class RobotAnymal includes all functions required for creating robot model
@@ -60,6 +61,7 @@ public:
     typedef std::unique_ptr<walkers::Robot> Ptr;
     RobotAnymal(void);
     RobotAnymal(std::string configFilename);
+    RobotAnymal(std::string configFilename, const std::string& _name);
 
     void load3Dobjects(Objects3DS& _objects3DS);
 
@@ -90,6 +92,7 @@ public:
     ~RobotAnymal(void);
 
 private:
+    void initializeModel(std::string configFilename);
 
     walkers::Mat34 neutralMotion; /// neutral position of the robot
 
@@ -106,6 +109,7 @@ private:
     walkers::Vec3 model3dPosition;
     walkers::Vec3 model3dOrientation;
     std::vector<std::vector<size_t>> parts3Dids;
+    std::vector<std::vector<walkers::Vec3>> partScales;
 };
 
 #endif

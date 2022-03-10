@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
   <Robot>
-        <type>Anymal</type>
-      <config>Anymal/Anymal.xml</config>
+<!--        <type>Anymal</type>-->
+<!--      <config>Anymal/Anymal.xml</config>-->
+      <type>Anymal_C</type>
+    <config>Anymal_C/Anymal_C.xml</config>
 <!--	<type>Atlas</type>
 	<config>Atlas/Atlas.xml</config>-->
 <!--        <type>PhantomX</type>
@@ -29,7 +31,7 @@
 <!--    <type>Coldet</type>
     <config>coldet.xml</config>-->
      <type>FCL</type>
-    <config>flexibleCollDetect.xml</config> 
+    <config>flexibleCollDetect.xml</config>
   </CollisionDetection>
   
   <Regression>

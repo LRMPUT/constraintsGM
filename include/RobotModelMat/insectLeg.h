@@ -91,6 +91,9 @@ class InsectLeg : public controller::Leg
 
         void get3DmodelNames(std::vector<std::string>& _model3dNames) {_model3dNames = model3dName;}
 
+        /// get model scales
+        void get3DmodelScales(std::vector<walkers::Vec3>& _model3dScales);
+
         ///get 3d model poses
         void get3DmodelPoses(std::vector<walkers::Mat34>& _model3dPoses);
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+<robot name="Anymal_C" legs_no="4">
+	<robot_body name="body">
+		<inertial>
+			<mass value="0.5"/>
+		</inertial>
+		<collision>
+                        <origin xyz="0.0 -2.3 0.95" rpy="0.0 0 0"/>
+                        <!--<origin xyz="-0.8 -4 5" rpy="0.0 0 0"/>-->
+			<geometry>
+				<box xyz="0.08 0.22 0.04"/>
+			</geometry>
+		</collision>
+ 		<visualization>
+                        <model3ds filename="Anymal_C/body.3ds" scale="1 1 1" xyz="0 0 0" rpy="0.0 0 -1.57"/>
+ 		</visualization>
+	</robot_body>
+        
+        <CollisionDetection>
+            <!--<type>Coldet</type>
+            <config>coldet.xml</config>-->
+            <type>FCL</type>
+            <config>flexibleCollDetect.xml</config>
+        </CollisionDetection>
+
+        <Optimizer>
+            <type>PSO</type>
+            <config>optPostureAnymal_C.xml</config>
+        </Optimizer>
+        
+        <Planner>
+            <parameters bodyWidth="0.2" bodyLength="0.3" bodyClearance="0.02"></parameters>
+        </Planner>
+        
+        <RegulatorODE>
+            <parameters PIDTuning="20 0.1 20000"></parameters>
+        </RegulatorODE>
+
+        <!--footholdSelectionMethods: ball - for ball like foot (JFR paper)
+                                  KDE - based on KDE and a set of positive and negative examples (compliant Pisa foot)
+                                  PollyFit - based on plynomial fitting (compliant Pisa foot)-->
+        
+<!--         footType="Pisa/ETH/ball" -->
+        <leg config="Anymal_C/Anymal_CLeg1.xml" footType="ball">
+        <footholdSelection footholdSelectionMethod="ball" footholdSelectionFile="footholdSelectionBallAnymal_C.xml" alphaRS="2.0" alphaSlopeForward="0.25" alphaSlopeLateral="0.25" alphaPitchCurv="0.25" alphaRollCurv="0.25" meanSlopeForward="0.2" meanSlopeLateral="0.2" meanRollCurv="0.0" meanPitchCurv="0.0" minSlopeRoll="-0.43633" maxSlopeRoll="0.43633" minSlopePitch="-0.87266" maxSlopePitch="0.87266" minCurvRoll="-12" maxCurvRoll="12" minCurvPitch="-2.4" maxCurvPitch="2.4"  minJerkRoll="-150" maxJerkRoll="150" minJerkPitch="-100" maxJerkPitch="100" footWidth="0.056" footLength="0.159"/>
+                <attach xyz="0.105 0.372 0.0" rpy="1.57 1.57 0" initConfiguration="0.12217 0.57596 -1.04720"/>
+	</leg>
+
+        <leg config="Anymal_C/Anymal_CLeg2.xml" footType="ball">
+        <footholdSelection footholdSelectionMethod="ball" footholdSelectionFile="footholdSelectionBallAnymal_C.xml" alphaRS="2.0" alphaSlopeForward="0.25" alphaSlopeLateral="0.25" alphaPitchCurv="0.25" alphaRollCurv="0.25" meanSlopeForward="0.2" meanSlopeLateral="0.2" meanRollCurv="0.0" meanPitchCurv="0.0" minSlopeRoll="-0.43633" maxSlopeRoll="0.43633" minSlopePitch="-0.87266" maxSlopePitch="0.87266" minCurvRoll="-12" maxCurvRoll="12" minCurvPitch="-2.4" maxCurvPitch="2.4"  minJerkRoll="-150" maxJerkRoll="150" minJerkPitch="-100" maxJerkPitch="100" footWidth="0.056" footLength="0.159"/>
+                <attach xyz="0.105 -0.372 0.0" rpy="-1.57 1.57 0" initConfiguration="-0.12217 0.57596 -1.04720"/>
+	</leg>
+
+        <leg config="Anymal_C/Anymal_CLeg3.xml" footType="ball">
+        <footholdSelection footholdSelectionMethod="ball" footholdSelectionFile="footholdSelectionBallAnymal_C.xml" alphaRS="2.0" alphaSlopeForward="0.25" alphaSlopeLateral="0.25" alphaPitchCurv="0.25" alphaRollCurv="0.25" meanSlopeForward="0.2" meanSlopeLateral="0.2" meanRollCurv="0.0" meanPitchCurv="0.0" minSlopeRoll="-0.43633" maxSlopeRoll="0.43633" minSlopePitch="-0.87266" maxSlopePitch="0.87266" minCurvRoll="-12" maxCurvRoll="12" minCurvPitch="-2.4" maxCurvPitch="2.4"  minJerkRoll="-150" maxJerkRoll="150" minJerkPitch="-100" maxJerkPitch="100" footWidth="0.056" footLength="0.159"/>
+                <attach xyz="-0.105 -0.372 0" rpy="-1.57 1.57 0" initConfiguration="0.12217 0.57596 -1.04720"/>
+	</leg>
+
+        <leg config="Anymal_C/Anymal_CLeg4.xml" footType="ball">
+        <footholdSelection footholdSelectionMethod="ball" footholdSelectionFile="footholdSelectionBallAnymal_C.xml" alphaRS="2.0" alphaSlopeForward="0.25" alphaSlopeLateral="0.25" alphaPitchCurv="0.25" alphaRollCurv="0.25" meanSlopeForward="0.2" meanSlopeLateral="0.2" meanRollCurv="0.0" meanPitchCurv="0.0" minSlopeRoll="-0.43633" maxSlopeRoll="0.43633" minSlopePitch="-0.87266" maxSlopePitch="0.87266" minCurvRoll="-12" maxCurvRoll="12" minCurvPitch="-2.4" maxCurvPitch="2.4"  minJerkRoll="-150" maxJerkRoll="150" minJerkPitch="-100" maxJerkPitch="100" footWidth="0.056" footLength="0.159"/>
+                <attach xyz="-0.105 0.372 0" rpy="1.57 1.57 0" initConfiguration="-0.12217 0.57596 -1.04720"/>
+	</leg>
+
+
+</robot>
+

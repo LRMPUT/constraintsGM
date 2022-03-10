@@ -37,7 +37,7 @@
 
 char Load3DS (ObjType* pObject, const char *pFilename)
 {
-	int i; //Index variable
+    int i; //Index variable
 	
 	FILE *l_file; //File pointer
 	

@@ -43,23 +43,29 @@ int main(int argc, char** argv)
             robotMat = walkers::createRobotMessor(robotConfig);
         }
         else if (robotType=="Anymal"){
+            std::cout << "create robot anymal\n";
             robotMat = walkers::createRobotAnymal(robotConfig);
+        }
+        else if (robotType=="Anymal_C"){
+            std::cout << "create robot anymal C\n";
+            robotMat = walkers::createRobotAnymal(robotConfig, "RobotAnymal_C");
         }
         else
             robotMat = walkers::createRobotMessor(robotConfig);
 
+        std::cout << "coldet type " << coldetType << "\n";
         QGLVisualizer visu(visualizerConfig, robotConfig, robotType, coldetType, coldetConfig);
         visu.setWindowTitle("Simulator viewer");
         visu.show();
 
         ///kinematic model of the robot
         std::vector<double> robotConfHexa = {0.7854,0.41888,-114*M_PI/180, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897, 0.7854,0.41888,-1.9897, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897};
-        std::vector<double> robotConfQuad = {-7.2*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, -7*M_PI/180,24*M_PI/180,-74*M_PI/180};
+        std::vector<double> robotConfQuad = {7.0*M_PI/180,33*M_PI/180,-60*M_PI/180, -7*M_PI/180,33*M_PI/180,-60*M_PI/180, 7*M_PI/180,33*M_PI/180,-60*M_PI/180, -7*M_PI/180,33*M_PI/180,-60*M_PI/180};
         std::vector<double> robotConf;
         if (robotType=="MessorII" || robotType=="PhantomX"){
             robotConf = robotConfHexa;
         }
-        else if (robotType=="Anymal"){
+        else if (robotType=="Anymal" || robotType=="Anymal_C"){
             robotConf = robotConfQuad;
         }
 

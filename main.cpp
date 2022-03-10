@@ -605,6 +605,10 @@ int main(void) {
             std::cout << "create robot anymal\n";
             robotMat = walkers::createRobotAnymal(robotConfig);
         }
+        else if (robotType=="Anymal_C"){
+            std::cout << "create robot anymal C\n";
+            robotMat = walkers::createRobotAnymal(robotConfig, "RobotAnymal_C");
+        }
         else
             robotMat = walkers::createRobotMessor(robotConfig);
 
@@ -727,7 +731,7 @@ int main(void) {
             neighbouringLegs.push_back(std::make_pair(3,4));
             neighbouringLegs.push_back(std::make_pair(4,5));
         }
-        else if (robotType=="Anymal"){
+        else if (robotType=="Anymal" || robotType=="Anymal_C"){
             neighbouringLegs.push_back(std::make_pair(0,1));
             neighbouringLegs.push_back(std::make_pair(2,3));
         }

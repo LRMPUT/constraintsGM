@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+<leg segment_no="3" joint_no="3" kinemMargGMFilename="../../resources/Anymal_C/model/leg0KM.dat" kinemOutMargGMFilename="../../resources/Anymal_C/model/leg0KM.dat" footholdSearchRange="0.05">
+    
+	<link id="1" length="0.0">
+		<inertial>
+			<mass value="0.15"/>
+		</inertial>
+		<collision>
+			<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+			<geometry>
+				<box xyz="0.05 0.05 0.029"/>
+			</geometry>
+		</collision>
+		<visualization>
+                        <model3ds filename="Anymal_C/legs/anymal_hip_r.3ds" scale="1.0 1.0 1.0" xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+		</visualization>
+	</link>
+        <link id="2" length="0.29">
+		<inertial>
+			<mass value="0.02"/>
+		</inertial>
+		<collision>
+                        <origin xyz="0 0.082 0.0" rpy="0 0 0"/>
+			<geometry>
+				<box xyz="0.02 0.02 0.041"/>
+			</geometry>
+		</collision>
+		<visualization>
+                        <model3ds filename="Anymal_C/legs/anymal_thigh_r.3ds" scale="1.0 1.0 1.0" xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+		</visualization>
+	</link>
+
+        <link id="3" length="0.365">
+		<inertial>
+			<mass value="0.08"/>
+		</inertial>
+		<collision>
+                        <origin xyz="0.29 0.202 0.0" rpy="0 0 0"/>
+			<geometry>
+				<box xyz="0.03 0.03 0.10"/>
+			</geometry>
+		</collision>
+		<visualization>
+                        <model3ds filename="Anymal_C/legs/anymal_shank_r.3ds" scale="1.0 1.0 1.0" xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+		</visualization>
+	</link>
+    
+    <foot id="7">
+		<inertial>
+			<mass value="0.05"/>
+		</inertial>
+		<collision>
+                        <origin xyz="0.63 0.205 0.0" rpy="0 0 0"/>
+			<geometry type="sphere">
+                                <sphere radius="0.03"/>
+			</geometry>
+		</collision>
+	</foot>
+        
+  	<joint type="D6">
+		<origin xyz="0.0 0.0 0.00" rpy="0.0 -1.5708 0"/>
+		<parent link="0"/>
+		<child link="1"/>
+                <controller controllerFilename="controllerPIDpos.xml" velControllerFilename="controllerPIDVel.xml" torqueControllerFilename="controllerPIDTorque.xml" controllerODE="controllerPID_ODE.xml"/>
+		<limit lower="-1.1" upper="1.1" velocity="7.01622"/>
+	</joint>
+
+  	<joint type="D6">
+                <origin xyz="0 0.082 0" rpy="0 0 -1.5708"/>
+		<parent link="1"/>
+		<child link="2"/>
+                <controller controllerFilename="controllerPIDpos.xml" velControllerFilename="controllerPIDVel.xml" torqueControllerFilename="controllerPIDTorque.xml" controllerODE="controllerPID_ODE.xml"/>
+		<limit lower="-3.14" upper="3.14" velocity="7.01622"/>
+	</joint>
+
+  	<joint type="D6">
+                <origin xyz="0.29 0.202 0.0" rpy="0 0 -1.5708"/>
+		<parent link="2"/>
+		<child link="3"/>
+                <controller controllerFilename="controllerPIDpos.xml" velControllerFilename="controllerPIDVel.xml" torqueControllerFilename="controllerPIDTorque.xml" controllerODE="controllerPID_ODE.xml"/>
+		<limit lower="-3.14" upper="3.14" velocity="7.01622"/>
+	</joint>
+
+        <jointFoot type="fixed">
+		<origin xyz="0.40 -0.202 0.027" rpy="1.5708 3.1416 0"/>
+		<parent link="3"/>
+		<child link="7"/>
+		<limit lower="-0.05" upper="0.05" velocity="7.01622"/>
+	</jointFoot>
+        
+        <parameters>
+	  <Joint0>
+		<name>ksi1</name> 
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+	  </Joint0>
+	  <Joint1>
+		<name>ksi1</name>   
+			<value>0</value>
+			<value>0</value>
+			<value>0.0</value>
+			<value>0</value>
+			<value>-1</value>
+			<value>0</value>
+	  </Joint1>
+	  <Joint2>
+		<name>ksi2</name>   
+			<value>0</value>
+			<value>0</value>
+                        <value>-0.29</value>
+			<value>0</value>
+			<value>-1</value>
+			<value>0</value>
+	  </Joint2>
+	  <g0>
+		<name>g0</name>   
+                        <value>0.645</value>
+                        <value>0.205</value>
+			<value>0</value>
+	  </g0>
+        </parameters>
+        
+</leg>

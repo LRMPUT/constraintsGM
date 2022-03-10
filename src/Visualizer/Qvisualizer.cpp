@@ -37,6 +37,9 @@ QGLVisualizer::QGLVisualizer(std::string configFilename, std::string& robotConfi
     else if (robotType=="Anymal"){
         robotMat = walkers::createRobotAnymal(robotConfig);
     }
+    else if (robotType=="Anymal_C"){
+        robotMat = walkers::createRobotAnymal(robotConfig, "RobotAnymal_C");
+    }
     else
         robotMat = walkers::createRobotMessor(robotConfig);
 
@@ -45,8 +48,8 @@ QGLVisualizer::QGLVisualizer(std::string configFilename, std::string& robotConfi
     if ((robotType=="MessorII")||(robotType=="PhantomX")){
         refAnglesKinem = std::vector<double> ({0.7854,0.41888,-114*M_PI/180, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897, 0.7854,0.41888,-1.9897, 0.0,0.41888,-1.9897, -0.7854,0.41888,-1.9897});
     }
-    else if (robotType=="Anymal") {
-        refAnglesKinem = std::vector<double> ({-7.2*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, 7*M_PI/180,24*M_PI/180,-74*M_PI/180, -7*M_PI/180,24*M_PI/180,-74*M_PI/180});
+    else if (robotType=="Anymal"||robotType=="Anymal_C") {
+        refAnglesKinem = std::vector<double> ({7.0*M_PI/180,33*M_PI/180,-60*M_PI/180, -7*M_PI/180,33*M_PI/180,-60*M_PI/180, 7*M_PI/180,33*M_PI/180,-60*M_PI/180, -7*M_PI/180,33*M_PI/180,-60*M_PI/180});
     }
 
     robotMat->load3Dobjects(objects3DS);
@@ -142,8 +145,9 @@ void QGLVisualizer::updateKinematicModel(const walkers::Mat34& pose, const std::
     std::vector<simulator::RenderObject> kinemObjects2render = robotMat->getObjectsToRender(configuration);
     std::cout << "kinemObjects2render " << kinemObjects2render.size() << "\n";
     kinemRobotPose = pose;
-    for (auto& obj : kinemObjects2render)
+    for (auto& obj : kinemObjects2render){
         obj.mat = kinemRobotPose*obj.mat;
+    }
     updateKinematicObjects(kinemObjects2render);
 }
 
@@ -192,8 +196,9 @@ void QGLVisualizer::draw(){
     renderScene();
     glPopMatrix();
     drawTextStatus();
-    if (config.visualizeCollisions)
+    if (config.visualizeCollisions){
         visualizeCollisions();
+    }
 
 }
 

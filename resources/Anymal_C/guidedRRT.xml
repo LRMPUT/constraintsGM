@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!-- Planner configuration -->
+  <Planner>
+    <name>GuidedRRT</name>
+    <parameters configRRT="Anymal/plannerRRTConnect.xml" maxPlanningTime="2600" rrtDistance="1.2" executionDistance="0.8" trialsNo="30"/>
+    <modifyGoal allow="true" goalRange="0.3"/>
+  </Planner>

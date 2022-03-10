@@ -11,6 +11,14 @@ RobotAnymal::RobotAnymal(void) : Robot("Anymal", TYPE_ANYMAL){
 }
 
 RobotAnymal::RobotAnymal(std::string configFilename) : walkers::Robot("RobotAnymal", TYPE_ANYMAL) {
+    initializeModel(configFilename);
+}
+
+RobotAnymal::RobotAnymal(std::string configFilename, const std::string& _name) : walkers::Robot(_name, TYPE_ANYMAL) {
+    initializeModel(configFilename);
+}
+
+void RobotAnymal::initializeModel(std::string configFilename){
     setlocale(LC_NUMERIC,"C");
     tinyxml2::XMLDocument config;
     std::string filename = "../../resources/" + configFilename;
@@ -108,7 +116,6 @@ RobotAnymal::RobotAnymal(std::string configFilename) : walkers::Robot("RobotAnym
     load3Dobjects(objects3DS);
 //        initKinematicModel(objects3DS);
     collisionChecker->initializeMeshModelWalker(objects3DS, modelsNo, elementsNo, scales);
-
 }
 
 RobotAnymal::~RobotAnymal(void) {
@@ -134,15 +141,21 @@ void RobotAnymal::load3Dobjects(Objects3DS& _objects3DS){
         else
             std::cout << "Could not load " << model3dName << "\n";
         parts3Dids.resize(legsNo);
+        partScales.resize(legsNo);
         for(int i=0; i<legsNo; ++i) {
             std::vector<std::string> model3dNames;
             ((InsectLeg*)legModels[i].get())->get3DmodelNames(model3dNames);/// assume that all legs are the same
             parts3Dids[i].resize(model3dNames.size());
+            std::vector<walkers::Vec3> model3dScales;
+            partScales[i].resize(model3dNames.size());
+            ((InsectLeg*)legModels[i].get())->get3DmodelScales(model3dScales);
             int linkNo=0;
             for(const auto& linkName : model3dNames){
                 size_t obj3dsId = _objects3DS.ObjLoad(linkName);
-                if(object3dsId)
+                if(object3dsId){
                     parts3Dids[i][linkNo] = obj3dsId-1;
+                    partScales[i] = model3dScales;
+                }
                 else
                     std::cout << "Could not load " << linkName << "\n";
                 linkNo++;
@@ -191,17 +204,26 @@ std::vector<simulator::RenderObject> RobotAnymal::getObjectsToRender(const std::
 
     transDH[0](0,3)=0.0;
 
-    transDH[1](0,3)=0.0;
-    transDH[1](1,3)=0.062;
-    transDH[1](2,3)=0.0;
+    if (name=="RobotAnymal"){//todo parameters in the xml file
+        transDH[1](0,3)=0.0;
+        transDH[1](1,3)=0.062;
+        transDH[1](2,3)=0.0;
 
-    transDH[2](0,3)=0.25;
-    transDH[2](1,3)=0.14;
-    transDH[2](2,3)=0.0;
+        transDH[2](0,3)=0.25;
+        transDH[2](1,3)=0.14;
+        transDH[2](2,3)=0.0;
+    }
+    else if (name=="RobotAnymal_C"){
+        transDH[1](0,3)=0.0;
+        transDH[1](1,3)=0.082;
+        transDH[1](2,3)=0.0;
+
+        transDH[2](0,3)=0.29;
+        transDH[2](1,3)=0.12;
+        transDH[2](2,3)=0.0;
+    }
 
     for(int i=0; i<legsNo; ++i){
-        std::vector<walkers::Vec3> partScales;
-        ((InsectLeg*)legModels[i].get())->get3DmodelScales(partScales);
         std::vector<double> conf = {configuration[i*legModels[i]->getJointsNo()],configuration[i*legModels[i]->getJointsNo()+1],configuration[i*legModels[i]->getJointsNo()+2]};
 
         std::vector<std::string> model3dNames;
@@ -228,9 +250,9 @@ std::vector<simulator::RenderObject> RobotAnymal::getObjectsToRender(const std::
             }
             model.mat = legMountPoints[i]*trans*model3dPoses[j];
             model.id = parts3Dids[i][j];
-            model.scaleX = partScales[j].x();
-            model.scaleY = partScales[j].y();
-            model.scaleZ = partScales[j].z();
+            model.scaleX = partScales[i][j].x();
+            model.scaleY = partScales[i][j].y();
+            model.scaleZ = partScales[i][j].z();
             model.mass = legModels[i]->getLinkMass(j);
             objects.push_back(model);
             objNo++;
@@ -364,13 +386,13 @@ bool RobotAnymal::checkCollisionNeighGM(size_t legNo, const std::vector<double>&
 }
 
 std::unique_ptr<walkers::Robot> walkers::createRobotAnymal(void) {
-    //RobotAnymal.reset(new RobotAnymal());
-    //return RobotAnymal.get();
     return walkers::make_unique<RobotAnymal>();
 }
 
 std::unique_ptr<walkers::Robot> walkers::createRobotAnymal(std::string filename) {
-    //RobotAnymal.reset(new RobotAnymal(filename));
-    //return RobotAnymal.get();
     return walkers::make_unique<RobotAnymal>(filename);
+}
+
+std::unique_ptr<walkers::Robot> walkers::createRobotAnymal(std::string filename, const std::string& _name) {
+    return walkers::make_unique<RobotAnymal>(filename, _name);
 }
